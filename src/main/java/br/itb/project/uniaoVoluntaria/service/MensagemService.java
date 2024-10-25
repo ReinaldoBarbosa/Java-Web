@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.itb.project.uniaoVoluntaria.model.entity.Mensagem;
@@ -13,6 +14,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class MensagemService {
 	private MensagemRepository mensagemRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public MensagemService(MensagemRepository mensagemRepository) {
 		super();
@@ -30,6 +34,8 @@ public class MensagemService {
 		
 		mensagem.setDataMensagem(LocalDateTime.now());
 		mensagem.setStatusMensagem("ATIVO");
+		
+		emailService.faleconosco(mensagem.getEmail(), mensagem.getEmissorMensagem(), mensagem.getTexto() );
 		
 		return mensagemRepository.save(mensagem);
 	}

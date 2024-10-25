@@ -24,9 +24,6 @@ public class Mensagem {
 	private String texto;
 	private String statusMensagem;
 	
-	@ManyToOne
-	@JoinColumn(name="id_usuario")
-	private Usuario usuario;
 	
 	public long getId() {
 		return id;
@@ -71,12 +68,7 @@ public class Mensagem {
 	public void setStatusMensagem(String statusMensagem) {
 		this.statusMensagem = statusMensagem;
 	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	
 	
 	
 }

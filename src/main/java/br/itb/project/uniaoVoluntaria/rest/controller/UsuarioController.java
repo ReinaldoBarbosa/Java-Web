@@ -68,6 +68,8 @@ public class UsuarioController {
 	}
 	
 	
+	
+	
 
 	@PutMapping("update/{id}")
 	public ResponseEntity<?> update(

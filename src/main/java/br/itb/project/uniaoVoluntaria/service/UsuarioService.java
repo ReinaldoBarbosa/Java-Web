@@ -1,11 +1,14 @@
 package br.itb.project.uniaoVoluntaria.service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +20,11 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
+	
+	
+	
+	@Autowired
+	private EmailService emailService;
 
 	public UsuarioService(UsuarioRepository usuarioRepository) {
 		// generate constructors using fields
@@ -50,9 +58,16 @@ public class UsuarioService {
 		usuario.setSenha(senha);
 		usuario.setDataCadastro(LocalDateTime.now());
 		usuario.setStatusUsuario("ATIVO");
-
-		return usuarioRepository.save(usuario);
+		Usuario savedUsuario = usuarioRepository.save(usuario);
+		
+		
+		emailService.enviarEmailTexto(usuario.getEmail(), "Novo Usuario", "O numero para validação de email é " );
+		
+		return savedUsuario;
+		
 	}
+	
+
 	
 	@Transactional
 	public Usuario createImage(MultipartFile file,Usuario usuario) {
